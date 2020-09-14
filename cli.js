@@ -33,6 +33,7 @@ program.version(pkg.version)
     .option('--env [value]', 'Path to .env file to load environment variables from. Optional', '.env')
     .option('--ssl-enabled [value]', 'To enable ssl or not. Default is true')
     .option('-v, --verbose', 'A value that can be increased', increaseVerbosity, 0)
+    .option('--error-visibility-timeout [value]', 'How long to hide failed requests before trying again, ms' )
 
 
 process.argv[1] = 'sqsd';
@@ -51,6 +52,7 @@ var defaults = {
     , workerHealthWaitTime: 10000
     , sslEnabled: true
     , verbose: 0
+    , errorTimeout: 1000
 }
 
 const dotenv = require('dotenv');
@@ -77,6 +79,7 @@ var envParams = { accessKeyId: process.env.AWS_ACCESS_KEY_ID
     , endpointUrl: process.env.SQSD_ENDPOINT_URL
     , queueName: process.env.SQSD_QUEUE_NAME
     , sslEnabled: process.env.SQSD_SSL_ENABLED
+    , errorTimeout: process.env.SQSD_ERORR_TIMEOUT
 }
 
 var extractedCliArgs = _.pick(program, Object.keys(envParams));
